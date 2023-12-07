@@ -65,7 +65,13 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public int countSongsInNoAlbum() {
-        return -1;
+        int counter = 0;
+        for (final var song : this.songs) {
+            if (song.getAlbumName().equals(Optional.empty())) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     @Override
