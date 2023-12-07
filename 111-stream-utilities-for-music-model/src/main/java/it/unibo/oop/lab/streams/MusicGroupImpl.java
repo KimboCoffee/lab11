@@ -3,6 +3,7 @@ package it.unibo.oop.lab.streams;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -93,12 +94,34 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Optional<String> longestSong() {
-        return null;
+        Optional<String> result = Optional.empty();
+        double maxDuration = 0.0;
+        if (!this.songs.isEmpty()) {
+            for (final var song : this.songs) {
+                if (song.getDuration() > maxDuration) {
+                    maxDuration = song.getDuration();
+                    result = Optional.of(song.getSongName());
+                }
+            }
+        }
+        return result;
     }
 
     @Override
     public Optional<String> longestAlbum() {
-        return null;
+        Optional<String> result = Optional.empty();
+        final List<String> albumNames = this.albumNames().toList();
+        double maxDuration = 0.0;
+        double partialDuration;
+        for (final var name : albumNames) {
+            partialDuration = 
+                this.countSongs(name) * this.averageDurationOfSongs(name).orElse(0.0);
+            if (partialDuration > maxDuration) {
+                maxDuration = partialDuration;
+                result = Optional.of(name);
+            }
+        }
+        return result;
     }
 
     private static final class Song {
