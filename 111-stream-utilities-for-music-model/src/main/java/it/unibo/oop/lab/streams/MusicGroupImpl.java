@@ -49,7 +49,7 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> albumInYear(final int year) {
-        return null;
+        return this.albumNames().filter(albumName -> this.albums.get(albumName) == year);
     }
 
     @Override
