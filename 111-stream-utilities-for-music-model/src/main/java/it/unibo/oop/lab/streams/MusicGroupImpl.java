@@ -76,7 +76,19 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public OptionalDouble averageDurationOfSongs(final String albumName) {
-        return null;
+        double partialResults = 0;
+        OptionalDouble average = OptionalDouble.empty();
+        final int songNumber = countSongs(albumName);
+        if (songNumber != 0) {
+            for (final var song : this.songs) {
+                if (albumName.equals(song.getAlbumName().orElse(null))) {
+                    partialResults = partialResults + song.getDuration();
+                }
+            }
+            partialResults = partialResults / songNumber;
+            average = OptionalDouble.of(partialResults);
+        }
+        return average;
     }
 
     @Override
