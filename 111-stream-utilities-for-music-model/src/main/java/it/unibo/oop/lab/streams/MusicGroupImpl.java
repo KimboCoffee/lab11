@@ -103,19 +103,6 @@ public final class MusicGroupImpl implements MusicGroup {
         return this.albumNames().
             max((album1, album2) -> 
                 Double.compare(this.albumLength(album1), this.albumLength(album2)));
-        /*Optional<String> result = Optional.empty();
-        final List<String> albumNames = this.albumNames().toList();
-        double maxDuration = 0.0;
-        double partialDuration;
-        for (final var name : albumNames) {
-            partialDuration = 
-                this.countSongs(name) * this.averageDurationOfSongs(name).orElse(0.0);
-            if (partialDuration > maxDuration) {
-                maxDuration = partialDuration;
-                result = Optional.of(name);
-            }
-        }
-        return result;*/
     }
 
     private static final class Song {
