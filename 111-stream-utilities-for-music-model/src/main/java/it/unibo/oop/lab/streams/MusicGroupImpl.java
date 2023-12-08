@@ -86,17 +86,9 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Optional<String> longestSong() {
-        Optional<String> result = Optional.empty();
-        double maxDuration = 0.0;
-        if (!this.songs.isEmpty()) {
-            for (final var song : this.songs) {
-                if (song.getDuration() > maxDuration) {
-                    maxDuration = song.getDuration();
-                    result = Optional.of(song.getSongName());
-                }
-            }
-        }
-        return result;
+        return Optional.of(this.songs.stream().
+            max((song1, song2) -> Double.compare(song1.getDuration(), song2.getDuration()))
+            .get().getSongName());
     }
 
     @Override
