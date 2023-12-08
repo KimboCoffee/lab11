@@ -3,6 +3,7 @@ package it.unibo.oop.lab.streams;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -68,19 +69,15 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public OptionalDouble averageDurationOfSongs(final String albumName) {
-        double partialResults = 0;
-        OptionalDouble average = OptionalDouble.empty();
-        final int songNumber = countSongs(albumName);
-        if (songNumber != 0) {
-            for (final var song : this.songs) {
-                if (albumName.equals(song.getAlbumName().orElse(null))) {
-                    partialResults = partialResults + song.getDuration();
-                }
-            }
-            partialResults = partialResults / songNumber;
-            average = OptionalDouble.of(partialResults);
+        double result = 0.0;
+        final Iterator<Double> iterator = this.songs.stream().
+            filter(song -> albumName.equals(song.getAlbumName().orElse(null))).
+            map(song -> song.getDuration()).
+            iterator();
+        while (iterator.hasNext()) {
+            result = result + iterator.next();
         }
-        return average;
+        return OptionalDouble.of(result / (double) this.countSongs(albumName));
     }
 
     @Override
