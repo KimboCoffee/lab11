@@ -8,6 +8,7 @@ import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.util.Locale;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -47,7 +48,10 @@ public final class LambdaFilter extends JFrame {
         COUNT_LINES("Count the number of lines", 
             string -> String.valueOf(string.lines().count())),
         ALPHABETICAL_ORDER("List all the words in alphabetical order",
-            string -> null),
+            string -> Stream.of(string.split(" "))
+                .sorted((string1, string2) -> string1.compareToIgnoreCase(string2))
+                .reduce((string1, string2) -> string1 + " " + string2)
+                .get()),
         COUNT_EACH_WORD("Write the count for each word", 
             string -> null);
 
